@@ -11,7 +11,7 @@ const SQL = `
       first_name VARCHAR(50) NOT NULL,
       last_name VARCHAR(50) NOT NULL,
       username VARCHAR(100) UNIQUE NOT NULL,
-      password_hash TEXT NOT NULL,
+      password TEXT NOT NULL,
       membership_status BOOLEAN DEFAULT FALSE
   );
 

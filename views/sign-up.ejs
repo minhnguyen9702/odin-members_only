@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sign Up</title>
+    <script>
+      function validatePasswords() {
+        const password = document.getElementById("password");
+        const confirm_password = document.getElementById("confirm_password");
+        const error = document.getElementById("error");
+        if (password.value == "" && confirm_password.value == "") {
+          password.style.borderColor = "red";
+          confirm_password.style.borderColor = "red";
+          error.innerHTML = "✖ Password cannot be empty";
+        } else if (password.value == confirm_password.value) {
+          password.style.borderColor = "lime";
+          confirm_password.style.borderColor = "lime";
+          error.innerHTML = "";
+        } else {
+          password.style.borderColor = "red";
+          confirm_password.style.borderColor = "red";
+          error.innerHTML = "✖ Passwords do not match";
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Sign Up</h1>
+    <form action="/sign-up" method="POST" onsubmit="return validatePasswords()">
+      <label for="first_name">First Name</label>
+      <input
+        id="first_name"
+        name="first_name"
+        placeholder="First Name"
+        type="text"
+        required
+      />
+
+      <label for="last_name">Last Name</label>
+      <input
+        id="last_name"
+        name="last_name"
+        placeholder="Last Name"
+        type="text"
+        required
+      />
+
+      <label for="username">Username</label>
+      <input
+        id="username"
+        name="username"
+        placeholder="Username"
+        type="text"
+        required
+      />
+
+      <label for="password">Password</label>
+      <input
+        id="password"
+        name="password"
+        type="password"
+        onkeyup="validatePasswords();"
+        required
+      />
+
+      <label for="confirm_password">Confirm Password</label>
+      <input
+        id="confirm_password"
+        name="confirm_password"
+        type="password"
+        onkeyup="validatePasswords();"
+        required
+      />
+
+      <button type="submit">Sign Up</button>
+    </form>
+    <span id="error"></span>
+  </body>
+</html>
