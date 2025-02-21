@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Members Only</title>
-</head>
-<body>
-  <% if (locals.user) {%>
-    <h1>WELCOME BACK <%= user.username %></h1>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Members Only</title>
+  </head>
+  <body>
+    <% if (locals.user) { %>
+    <h1>WELCOME BACK <%= locals.user.username %></h1>
     <a href="/member-status">CHANGE MEMBERSHIP STATUS</a>
     <a href="/log-in/log-out">LOG OUT</a>
-  <% } else { %>
+    <% } else { %>
     <h1>Please Login</h1>
     <form action="/log-in" method="POST">
       <label for="username">Username</label>
@@ -19,6 +19,8 @@
       <button>Log In</button>
     </form>
     <a href="/sign-up">Don't have an account? Please sign up.</a>
-  <%}%>
-</body>
+    <% } %> <% if (message.length) { %>
+    <p><%= message[0] %></p>
+    <% } %>
+  </body>
 </html>

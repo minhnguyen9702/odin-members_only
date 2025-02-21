@@ -8,6 +8,7 @@ module.exports = (passport) => {
     passport.authenticate("local", {
       successRedirect: "/",
       failureRedirect: "/",
+      failureFlash: "Incorrect username or password. Please try again",
     })
   );
 

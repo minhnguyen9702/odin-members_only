@@ -17,7 +17,10 @@
       <input type="password" id="password" name="password" required />
       <button type="submit">Submit</button>
     </form>
-
+    <% if (message.length) { %>
+      <p><%= message[0] %></p> <!-- ✅ Display first flash message -->
+    <% } %>
+    
     <% if (user.membership_status) { %>
     <p>You are a Member ✅</p>
     <% } else { %>

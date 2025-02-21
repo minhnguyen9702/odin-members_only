@@ -15,7 +15,8 @@ exports.handleMemberStatus = async (req, res) => {
     } else if (password === process.env.MEMBER_SECRET) {
       updatedUSer = db.setMemberStatusTrue(userId);
     } else {
-      return res.send("Incorrect password. Try again.");
+      req.flash("error", "Incorrect password. Please try again.");
+      return res.redirect("/member-status");
     }
     req.user = updatedUser;
     res.redirect("/member-status");
