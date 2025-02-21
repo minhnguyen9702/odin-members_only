@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Members Only</title>
+  </head>
+  <body>
+    <% if (locals.user) { %>
+    <h1>Upgrade Membership</h1>
+    <p>
+      Welcome, <%= user.username %>! Enter the correct password to update your
+      membership level.
+    </p>
+
+    <form action="/member-status" method="POST">
+      <label for="password">Enter Membership/ Admin Password:</label>
+      <input type="password" id="password" name="password" required />
+      <button type="submit">Submit</button>
+    </form>
+
+    <% if (user.membership_status) { %>
+    <p>You are a Member ✅</p>
+    <% } else { %>
+    <p>You are NOT a Member ❌</p>
+    <% } %> <% if (user.admin_status) { %>
+    <p>You are an Admin 🛠️</p>
+    <% } else { %>
+    <p>You are NOT an Admin ❌</p>
+    <% } %>
+
+    <a href="/">Return to Homepage</a>
+
+    <% } else { %>
+    <a href="/"
+      >You are not currently logged in, please return to the Homepage</a
+    >
+    <% } %>
+  </body>
+</html>

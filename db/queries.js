@@ -28,7 +28,23 @@ const addUser = async (first_name, last_name, username, password) => {
   }
 };
 
+const setAdminStatusTrue = async (userId) => {
+  const query =
+    "UPDATE users SET membership_status = TRUE, admin_status = TRUE WHERE id = $1 RETURNING *";
+  const rows = await db.query(query, [userId]);
+  return rows[0];
+};
+
+const setMemberStatusTrue = async (userId) => {
+  const query =
+    "UPDATE users SET membership_status = TRUE WHERE id = $1 RETURNING *";
+  const rows = await db.query(query, [userId]);
+  return rows[0];
+};
+
 module.exports = {
   checkExistingUser,
   addUser,
+  setAdminStatusTrue,
+  setMemberStatusTrue,
 };

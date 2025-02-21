@@ -7,6 +7,7 @@
 <body>
   <% if (locals.user) {%>
     <h1>WELCOME BACK <%= user.username %></h1>
+    <a href="/member-status">CHANGE MEMBERSHIP STATUS</a>
     <a href="/log-in/log-out">LOG OUT</a>
   <% } else { %>
     <h1>Please Login</h1>

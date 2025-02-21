@@ -8,7 +8,7 @@ const bcrypt = require("bcryptjs");
 
 const signupRouter = require("./routes/signupRouter");
 const loginRouter = require("./routes/loginRouter");
-
+const memberStatusRouter = require("./routes/memberStatusRouter");
 
 // setup to use ejs
 const app = express();
@@ -17,14 +17,9 @@ app.set("view engine", "ejs");
 
 // setup session
 app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
+app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
-
-app.get("/", (req, res) => {
-  res.render("index", { user: req.user });
-});
-app.use("/sign-up", signupRouter);
-app.use("/log-in", loginRouter(passport));
 
 passport.use(
   new LocalStrategy(async (username, password, done) => {
@@ -65,5 +60,16 @@ passport.deserializeUser(async (id, done) => {
     done(err);
   }
 });
+
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+});
+app.get("/", (req, res) => {
+  res.render("index");
+});
+app.use("/sign-up", signupRouter);
+app.use("/log-in", loginRouter(passport));
+app.use("/member-status", memberStatusRouter);
 
 app.listen(3000, () => console.log("app listening on port 3000!"));
