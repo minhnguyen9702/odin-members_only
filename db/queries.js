@@ -42,9 +42,28 @@ const setMemberStatusTrue = async (userId) => {
   return rows[0];
 };
 
+const createMessage = async (userId, title, text) => {
+  const query = `
+    INSERT INTO messages (user_id, title, text) 
+    VALUES ($1, $2, $3)
+  `;
+  await db.query(query, [userId, title, text]);
+};
+
+const getAllMessages = async () => {
+  const query = `SELECT messages.id, messages.title, messages.text, messages.created_at, users.username 
+                 FROM messages 
+                 JOIN users ON messages.user_id = users.id 
+                 ORDER BY messages.created_at DESC`;
+  const result = await db.query(query);
+  return result.rows;
+};
+
 module.exports = {
   checkExistingUser,
   addUser,
   setAdminStatusTrue,
   setMemberStatusTrue,
+  createMessage,
+  getAllMessages,
 };

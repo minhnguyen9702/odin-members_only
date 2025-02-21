@@ -9,6 +9,21 @@
     <h1>WELCOME BACK <%= locals.user.username %></h1>
     <a href="/member-status">CHANGE MEMBERSHIP STATUS</a>
     <a href="/log-in/log-out">LOG OUT</a>
+    <h2>CREATE A NEW MESSAGE</h2>
+    <form action="/message/add" method="POST">
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" required />
+
+      <label for="text">Message:</label>
+      <textarea id="text" name="text" required></textarea>
+
+      <button type="submit">Post Message</button>
+    </form>
+    
+    <% if (errorMessage.length) { %>
+      <p><%= errorMessage[0] %></p>
+    <% } %>
+
     <% } else { %>
     <h1>Please Login</h1>
     <form action="/log-in" method="POST">
@@ -19,8 +34,8 @@
       <button>Log In</button>
     </form>
     <a href="/sign-up">Don't have an account? Please sign up.</a>
-    <% } %> <% if (message.length) { %>
-    <p><%= message[0] %></p>
+    <% } %> <% if (errorMessage.length) { %>
+    <p><%= errorMessage[0] %></p>
     <% } %>
   </body>
 </html>

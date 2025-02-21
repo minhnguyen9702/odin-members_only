@@ -17,8 +17,8 @@
       <input type="password" id="password" name="password" required />
       <button type="submit">Submit</button>
     </form>
-    <% if (message.length) { %>
-      <p><%= message[0] %></p> <!-- ✅ Display first flash message -->
+    <% if (errorMessage.length) { %>
+      <p><%= errorMessage[0] %></p> <!-- ✅ Display first flash errorMessage -->
     <% } %>
     
     <% if (user.membership_status) { %>

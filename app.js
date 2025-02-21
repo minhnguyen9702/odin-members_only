@@ -10,6 +10,7 @@ const bcrypt = require("bcryptjs");
 const signupRouter = require("./routes/signupRouter");
 const loginRouter = require("./routes/loginRouter");
 const memberStatusRouter = require("./routes/memberStatusRouter");
+const messageRouter = require("./routes/messageRouter");
 
 // setup to use ejs
 const app = express();
@@ -65,7 +66,7 @@ passport.deserializeUser(async (id, done) => {
 
 app.use((req, res, next) => {
   res.locals.user = req.user || null;
-  res.locals.message = req.flash("error");
+  res.locals.errorMessage = req.flash("error");
   next();
 });
 app.get("/", (req, res) => {
@@ -74,5 +75,6 @@ app.get("/", (req, res) => {
 app.use("/sign-up", signupRouter);
 app.use("/log-in", loginRouter(passport));
 app.use("/member-status", memberStatusRouter);
+app.use("/message", messageRouter);
 
 app.listen(3000, () => console.log("app listening on port 3000!"));
