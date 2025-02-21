@@ -7,6 +7,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const pool = require("./db/pool");
 const bcrypt = require("bcryptjs");
 
+const db = require("./db/queries.js");
 const signupRouter = require("./routes/signupRouter");
 const loginRouter = require("./routes/loginRouter");
 const memberStatusRouter = require("./routes/memberStatusRouter");
@@ -69,8 +70,14 @@ app.use((req, res, next) => {
   res.locals.errorMessage = req.flash("error");
   next();
 });
-app.get("/", (req, res) => {
-  res.render("index");
+app.get("/", async (req, res) => {
+  try {
+    const messages = await db.getAllMessages();
+    res.render("index", {messages} );
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error fetching messages.");
+  }
 });
 app.use("/sign-up", signupRouter);
 app.use("/log-in", loginRouter(passport));

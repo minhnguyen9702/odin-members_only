@@ -19,11 +19,26 @@
 
       <button type="submit">Post Message</button>
     </form>
-    
+
     <% if (errorMessage.length) { %>
-      <p><%= errorMessage[0] %></p>
+    <p><%= errorMessage[0] %></p>
     <% } %>
 
+    <h2>Messages</h2>
+    <% if (messages.length) { %>
+    <ul>
+      <% messages.forEach(message => { %>
+      <li>
+        <strong><%= message.title %></strong> by <%= message.username %> <br />
+        <%= message.text %> <br />
+        <small><%= message.created_at.toLocaleString() %></small>
+      </li>
+      <% }) %>
+    </ul>
+    <% } else { %>
+    <p>No messages yet.</p>
+    <% } %>
+    
     <% } else { %>
     <h1>Please Login</h1>
     <form action="/log-in" method="POST">
