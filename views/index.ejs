@@ -26,17 +26,36 @@
 
     <h2>Messages</h2>
     <% if (messages.length) { %>
-    <ul>
-      <% messages.forEach(message => { %>
-      <li>
-        <strong><%= message.title %></strong> by <%= message.username %> <br />
-        <%= message.text %> <br />
-        <small><%= message.created_at.toLocaleString() %></small>
-      </li>
-      <% }) %>
-    </ul>
+      <ul>
+        <% messages.forEach((msg) => { %>
+          <li>
+            <strong><%= msg.title %></strong>: <%= msg.text %>
+    
+            <% if (locals.user && locals.user.membership_status) { %>
+              <br>
+              <small>
+                By <%= msg.username %> on <%= new Date(msg.created_at).toLocaleString("en-US", { 
+                  year: "numeric", 
+                  month: "long", 
+                  day: "numeric", 
+                  hour: "2-digit", 
+                  minute: "2-digit", 
+                  second: "2-digit", 
+                  hour12: false // Set to true for AM/PM format
+                }) %>
+              </small>
+            <% } %>
+
+            <% if (user && user.admin_status) { %>
+              <form action="/message/delete/<%= msg.id %>" method="POST">
+                <button type="submit">❌ Delete</button>
+              </form>
+            <% } %>
+          </li>
+        <% }) %>
+      </ul>
     <% } else { %>
-    <p>No messages yet.</p>
+      <p>No messages yet.</p>
     <% } %>
     
     <% } else { %>

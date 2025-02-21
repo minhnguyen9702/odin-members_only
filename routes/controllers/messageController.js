@@ -13,3 +13,17 @@ exports.handleAddMessage = async (req, res) => {
     res.redirect("/");
   }
 };
+
+exports.handleDeleteMessage = async (req, res) => {
+  if (!req.user || !req.user.admin_status) {
+    return res.status(403).send("Unauthorized");
+  }
+
+  try {
+    await db.deleteMessage(req.params.id);
+    res.redirect("/");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error deleting message.");
+  }
+};

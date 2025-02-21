@@ -59,6 +59,11 @@ const getAllMessages = async () => {
   return result.rows;
 };
 
+const deleteMessage = async (id) => {
+  const query = "DELETE FROM messages WHERE id = $1";
+  await db.query(query, [id]);
+};
+
 module.exports = {
   checkExistingUser,
   addUser,
@@ -66,4 +71,5 @@ module.exports = {
   setMemberStatusTrue,
   createMessage,
   getAllMessages,
+  deleteMessage,
 };
