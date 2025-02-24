@@ -24,6 +24,7 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static("public"));
 
 passport.use(
   new LocalStrategy(async (username, password, done) => {

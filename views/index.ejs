@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <%- include("partials/_head") %>
-  <body class="bg-light">
+  <body class="bg-light d-flex flex-column min-vh-100">
     <div class="container mt-4" style="max-width: 800px">
       <% if (locals.user) { %>
       <h1 class="text-primary text-center">
@@ -127,5 +127,6 @@
       <div class="alert alert-danger mt-3"><%= errorMessage[0] %></div>
       <% } %>
     </div>
+    <%- include("partials/_footer") %>
   </body>
 </html>
