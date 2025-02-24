@@ -1,80 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Sign Up</title>
-    <script>
-      function validatePasswords() {
-        const password = document.getElementById("password");
-        const confirm_password = document.getElementById("confirm_password");
-        const error = document.getElementById("error");
-        if (password.value == "" && confirm_password.value == "") {
-          password.style.borderColor = "red";
-          confirm_password.style.borderColor = "red";
-          error.innerHTML = "✖ Password cannot be empty";
-        } else if (password.value == confirm_password.value) {
-          password.style.borderColor = "lime";
-          confirm_password.style.borderColor = "lime";
-          error.innerHTML = "";
-        } else {
-          password.style.borderColor = "red";
-          confirm_password.style.borderColor = "red";
-          error.innerHTML = "✖ Passwords do not match";
-        }
+  <%- include("partials/_head", { script: `
+  <script>
+    function validatePasswords() {
+      const password = document.getElementById("password");
+      const confirm_password = document.getElementById("confirm_password");
+      const error = document.getElementById("error");
+
+      if (password.value === "" && confirm_password.value === "") {
+        password.classList.add("is-invalid");
+        confirm_password.classList.add("is-invalid");
+        error.innerHTML = "✖ Password cannot be empty";
+      } else if (password.value === confirm_password.value) {
+        password.classList.remove("is-invalid");
+        confirm_password.classList.remove("is-invalid");
+        password.classList.add("is-valid");
+        confirm_password.classList.add("is-valid");
+        error.innerHTML = "";
+      } else {
+        password.classList.add("is-invalid");
+        confirm_password.classList.add("is-invalid");
+        error.innerHTML = "✖ Passwords do not match";
       }
-    </script>
-  </head>
-  <body>
-    <h1>Sign Up</h1>
-    <form action="/sign-up" method="POST" onsubmit="return validatePasswords()">
-      <label for="first_name">First Name</label>
-      <input
-        id="first_name"
-        name="first_name"
-        placeholder="First Name"
-        type="text"
-        required
-      />
+    }
+  </script>
+  ` }) %>
+  <body class="bg-light">
+    <div class="container mt-5" style="max-width: 400px">
+      <h1 class="text-center text-primary">Sign Up</h1>
+      <div class="bg-white p-4 rounded shadow-sm">
+        <form
+          action="/sign-up"
+          method="POST"
+          onsubmit="return validatePasswords()"
+        >
+          <div class="mb-3">
+            <label for="first_name" class="form-label">First Name</label>
+            <input
+              id="first_name"
+              name="first_name"
+              placeholder="First Name"
+              type="text"
+              class="form-control"
+              required
+            />
+          </div>
 
-      <label for="last_name">Last Name</label>
-      <input
-        id="last_name"
-        name="last_name"
-        placeholder="Last Name"
-        type="text"
-        required
-      />
+          <div class="mb-3">
+            <label for="last_name" class="form-label">Last Name</label>
+            <input
+              id="last_name"
+              name="last_name"
+              placeholder="Last Name"
+              type="text"
+              class="form-control"
+              required
+            />
+          </div>
 
-      <label for="username">Username</label>
-      <input
-        id="username"
-        name="username"
-        placeholder="Username"
-        type="text"
-        required
-      />
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input
+              id="username"
+              name="username"
+              placeholder="Username"
+              type="text"
+              class="form-control"
+              required
+            />
+          </div>
 
-      <label for="password">Password</label>
-      <input
-        id="password"
-        name="password"
-        type="password"
-        onkeyup="validatePasswords();"
-        required
-      />
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              class="form-control"
+              onkeyup="validatePasswords();"
+              required
+            />
+          </div>
 
-      <label for="confirm_password">Confirm Password</label>
-      <input
-        id="confirm_password"
-        name="confirm_password"
-        type="password"
-        onkeyup="validatePasswords();"
-        required
-      />
+          <div class="mb-3">
+            <label for="confirm_password" class="form-label"
+              >Confirm Password</label
+            >
+            <input
+              id="confirm_password"
+              name="confirm_password"
+              type="password"
+              class="form-control"
+              onkeyup="validatePasswords();"
+              required
+            />
+          </div>
 
-      <button type="submit">Sign Up</button>
-    </form>
-    <span id="error"></span>
-    <a href="/">Already have an account? Please login.</a>
+          <div class="text-danger mb-3" id="error"></div>
+
+          <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+        </form>
+
+        <div class="text-center mt-3">
+          <a href="/">Already have an account? Please login.</a>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

@@ -1,42 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Members Only</title>
-  </head>
-  <body>
-    <% if (locals.user) { %>
-    <h1>Upgrade Membership</h1>
-    <p>
-      Welcome, <%= user.username %>! Enter the correct password to update your
-      membership level.
-    </p>
+  <%- include("partials/_head") %>
+  <body class="bg-light">
+    <div class="container mt-5">
+      <% if (locals.user) { %>
+      <h1 class="text-center text-primary">Upgrade Membership</h1>
+      <div class="card shadow-sm bg-white p-4 mx-auto" style="max-width: 500px">
+        <p class="text-center">
+          Welcome, <strong><%= user.username %></strong>! Enter the correct
+          password to update your membership level.
+        </p>
 
-    <form action="/member-status" method="POST">
-      <label for="password">Enter Membership/ Admin Password:</label>
-      <input type="password" id="password" name="password" required />
-      <button type="submit">Submit</button>
-    </form>
-    <% if (errorMessage.length) { %>
-      <p><%= errorMessage[0] %></p> <!-- ✅ Display first flash errorMessage -->
-    <% } %>
-    
-    <% if (user.membership_status) { %>
-    <p>You are a Member ✅</p>
-    <% } else { %>
-    <p>You are NOT a Member ❌</p>
-    <% } %> <% if (user.admin_status) { %>
-    <p>You are an Admin 🛠️</p>
-    <% } else { %>
-    <p>You are NOT an Admin ❌</p>
-    <% } %>
+        <% if (errorMessage.length) { %>
+        <div class="alert alert-danger text-center"><%= errorMessage[0] %></div>
+        <% } %> <% if (user.membership_status) { %>
+        <div class="alert alert-success text-center">You are a Member ✅</div>
+        <% } else { %>
+        <div class="alert alert-danger text-center">
+          You are NOT a Member ❌
+        </div>
+        <% } %> <% if (user.admin_status) { %>
+        <div class="alert alert-info text-center">You are an Admin 🛠️</div>
+        <% } else { %>
+        <div class="alert alert-warning text-center">
+          You are NOT an Admin ❌
+        </div>
+        <% } %>
 
-    <a href="/">Return to Homepage</a>
+        <form action="/member-status" method="POST" class="mb-3">
+          <div class="mb-3">
+            <label for="password" class="form-label"
+              >Enter Membership/Admin Password:</label
+            >
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="form-control"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Submit</button>
+        </form>
 
-    <% } else { %>
-    <a href="/"
-      >You are not currently logged in, please return to the Homepage</a
-    >
-    <% } %>
+        <div class="text-center mt-3">
+          <a href="/" class="btn btn-outline-secondary">Return to Homepage</a>
+        </div>
+      </div>
+
+      <% } else { %>
+      <div class="text-center">
+        <p class="alert alert-warning">You are not currently logged in.</p>
+        <a href="/" class="btn btn-primary">Return to Homepage</a>
+      </div>
+      <% } %>
+    </div>
   </body>
 </html>

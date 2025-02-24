@@ -1,75 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Members Only</title>
-  </head>
-  <body>
-    <% if (locals.user) { %>
-    <h1>WELCOME BACK <%= locals.user.username %></h1>
-    <a href="/member-status">CHANGE MEMBERSHIP STATUS</a>
-    <a href="/log-in/log-out">LOG OUT</a>
-    <h2>CREATE A NEW MESSAGE</h2>
-    <form action="/message/add" method="POST">
-      <label for="title">Title:</label>
-      <input type="text" id="title" name="title" required />
+  <%- include("partials/_head") %>
+  <body class="bg-light">
+    <div class="container mt-4" style="max-width: 800px">
+      <% if (locals.user) { %>
+      <h1 class="text-primary text-center">
+        WELCOME BACK, <%= locals.user.username %>!
+      </h1>
 
-      <label for="text">Message:</label>
-      <textarea id="text" name="text" required></textarea>
+      <div class="text-center mb-4">
+        <a href="/member-status" class="btn btn-outline-primary me-2"
+          >Change Membership Status</a
+        >
+        <a href="/log-in/log-out" class="btn btn-danger">Log Out</a>
+      </div>
 
-      <button type="submit">Post Message</button>
-    </form>
+      <h2 class="text-secondary">Create a New Message</h2>
+      <form
+        action="/message/add"
+        method="POST"
+        class="bg-white p-4 rounded shadow-sm"
+      >
+        <div class="mb-3">
+          <label for="title" class="form-label">Title:</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            class="form-control"
+            required
+          />
+        </div>
 
-    <% if (errorMessage.length) { %>
-    <p><%= errorMessage[0] %></p>
-    <% } %>
+        <div class="mb-3">
+          <label for="text" class="form-label">Message:</label>
+          <textarea
+            id="text"
+            name="text"
+            class="form-control"
+            rows="4"
+            required
+          ></textarea>
+        </div>
 
-    <h2>Messages</h2>
-    <% if (messages.length) { %>
-      <ul>
+        <button type="submit" class="btn btn-primary">Post Message</button>
+      </form>
+
+      <% if (errorMessage.length) { %>
+      <div class="alert alert-danger mt-3"><%= errorMessage[0] %></div>
+      <% } %>
+
+      <h2 class="mt-4 text-secondary">Messages</h2>
+      <% if (messages.length) { %>
+      <ul class="list-group">
         <% messages.forEach((msg) => { %>
-          <li>
-            <strong><%= msg.title %></strong>: <%= msg.text %>
-    
-            <% if (locals.user && locals.user.membership_status) { %>
-              <br>
-              <small>
-                By <%= msg.username %> on <%= new Date(msg.created_at).toLocaleString("en-US", { 
-                  year: "numeric", 
-                  month: "long", 
-                  day: "numeric", 
-                  hour: "2-digit", 
-                  minute: "2-digit", 
-                  second: "2-digit", 
-                  hour12: false // Set to true for AM/PM format
-                }) %>
-              </small>
-            <% } %>
+        <li class="list-group-item mb-3">
+          <!-- Added margin-bottom -->
+          <h5 class="fw-bold"><%= msg.title %></h5>
+          <p class="mb-1"><%= msg.text %></p>
 
-            <% if (user && user.admin_status) { %>
-              <form action="/message/delete/<%= msg.id %>" method="POST">
-                <button type="submit">❌ Delete</button>
-              </form>
-            <% } %>
-          </li>
+          <% if (locals.user && locals.user.membership_status) { %>
+          <small class="text-muted">
+            By <strong><%= msg.username %></strong> on <%= new
+            Date(msg.created_at).toLocaleString("en-US", { year: "numeric",
+            month: "long", day: "numeric", hour: "2-digit", minute: "2-digit",
+            second: "2-digit", hour12: false }) %>
+          </small>
+          <% } %> <% if (user && user.admin_status) { %>
+          <form
+            action="/message/delete/<%= msg.id %>"
+            method="POST"
+            class="mt-2"
+          >
+            <button type="submit" class="btn btn-sm btn-danger">
+              ❌ Delete
+            </button>
+          </form>
+          <% } %>
+        </li>
         <% }) %>
       </ul>
-    <% } else { %>
-      <p>No messages yet.</p>
-    <% } %>
-    
-    <% } else { %>
-    <h1>Please Login</h1>
-    <form action="/log-in" method="POST">
-      <label for="username">Username</label>
-      <input id="username" name="username" placeholder="username" type="text" />
-      <label for="password">Password</label>
-      <input id="password" name="password" type="password" />
-      <button>Log In</button>
-    </form>
-    <a href="/sign-up">Don't have an account? Please sign up.</a>
-    <% } %> <% if (errorMessage.length) { %>
-    <p><%= errorMessage[0] %></p>
-    <% } %>
+      <% } else { %>
+      <p class="text-muted">No messages yet.</p>
+      <% } %> <% } else { %>
+      <div class="text-center">
+        <h1 class="text-primary">Members Only</h1>
+
+        <form
+          action="/log-in"
+          method="POST"
+          class="bg-white p-4 rounded shadow-sm mx-auto"
+          style="max-width: 400px"
+        >
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input
+              id="username"
+              name="username"
+              placeholder="username"
+              type="text"
+              class="form-control"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input
+              id="password"
+              name="password"
+              placeholder="password"
+              type="password"
+              class="form-control"
+              required
+            />
+          </div>
+
+          <button class="btn btn-primary w-100">Log In</button>
+        </form>
+
+        <a href="/sign-up" class="d-block mt-3"
+          >Don't have an account? Please sign up.</a
+        >
+      </div>
+      <% } %> <% if (errorMessage.length) { %>
+      <div class="alert alert-danger mt-3"><%= errorMessage[0] %></div>
+      <% } %>
+    </div>
   </body>
 </html>
